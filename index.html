@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Mi Granja NFT</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Fredoka', cursive, sans-serif; user-select: none; }
         
         body {
-            background: #0288d1;
+            background: #0277bd;
             color: #ffffff;
             display: flex;
             flex-direction: column;
@@ -19,22 +19,22 @@
             overflow: hidden;
         }
 
-        /* HEADERESTILO MADERA VIBRANTE */
+        /* HEADER ESTILO MADERA */
         .header-bar {
             width: 100%;
             max-width: 420px;
             background: linear-gradient(180deg, #8d5225, #42200a);
-            border-bottom: 3px solid #fbc02d;
-            padding: 8px 12px;
+            border-bottom: 3px solid #ffca28;
+            padding: 10px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             z-index: 20;
         }
 
         .stat-card {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.45);
             border: 2px solid #ffb74d;
             border-radius: 20px;
             padding: 4px 12px;
@@ -45,91 +45,103 @@
         .stat-val { font-size: 14px; color: #ffeb3b; text-shadow: 1px 1px 2px #000; }
 
         .cause-badge {
-            background: linear-gradient(180deg, #4caf50, #2e7d32);
-            border: 2px solid #a5d6a7;
-            padding: 4px 10px;
+            background: linear-gradient(180deg, #2e7d32, #1b5e20);
+            border: 2px solid #81c784;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 11px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        /* ESCENARIO DEL JUEGO (MAPA REAL CON IMÁGENES) */
+        /* ESCENARIO OCÉANO Y ISLA */
         #game-view {
             position: relative;
             width: 100%;
             max-width: 420px;
             height: calc(100vh - 120px);
-            background: url('https://img.freepik.com/vector-gratis/patron-textura-agua-mar-azul_1017-30819.jpg') repeat;
-            background-size: 200px;
+            background: radial-gradient(circle, #29b6f6 0%, #01579b 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        /* MAPA DE LA ISLA (IMAGEN CENTRAL) */
-        .island-map {
+        /* ISLA PRINCIPAL */
+        .island-container {
             position: relative;
-            width: 340px;
-            height: 340px;
-            background: linear-gradient(135deg, #a1887f 0%, #4e342e 100%);
-            border: 6px solid #2e7d32;
-            border-radius: 40px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7), inset 0 0 20px rgba(76,175,80,0.8);
+            width: 350px;
+            height: 380px;
+            background: #4caf50;
+            border-radius: 45px;
+            border: 8px solid #388e3c;
+            box-shadow: 
+                0 18px 0 #2e7d32,
+                0 25px 30px rgba(0, 0, 0, 0.5),
+                inset 0 10px 0 rgba(255, 255, 255, 0.2);
+            padding: 12px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 10px;
-            padding: 15px;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 12px;
         }
 
         /* ZONAS DE LA GRANJA */
         .farm-zone {
-            background: rgba(46, 125, 50, 0.6);
-            border: 2px dashed #a5d6a7;
-            border-radius: 15px;
+            background: rgba(46, 125, 50, 0.45);
+            border: 3px dashed #a5d6a7;
+            border-radius: 20px;
+            position: relative;
+            padding: 24px 8px 8px 8px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
-            gap: 5px;
-            padding: 5px;
-            position: relative;
+            align-content: center;
+            gap: 8px;
         }
 
-        .zone-title {
+        .zone-label {
             position: absolute;
-            top: -10px;
-            background: #ffb74d;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg, #ffb74d, #f57c00);
+            border: 2px solid #ffe082;
             color: #3e2723;
-            font-size: 9px;
-            padding: 2px 6px;
-            border-radius: 8px;
+            font-size: 10px;
             font-weight: bold;
+            padding: 2px 10px;
+            border-radius: 12px;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        /* ELEMENTOS GRÁFICOS (PLANTAS, GALLINAS, VACAS) */
-        .crop-plot {
-            width: 55px;
-            height: 55px;
-            background: #3e2723;
-            border: 2px solid #8d6e63;
-            border-radius: 10px;
+        /* CELDA DE CULTIVO / ANIMALES */
+        .tile {
+            width: 58px;
+            height: 58px;
+            background: linear-gradient(180deg, #5d4037, #3e2723);
+            border: 3px solid #8d6e63;
+            border-radius: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: inset 0 0 5px #000;
+            box-shadow: inset 0 3px 0 rgba(0,0,0,0.4), 0 4px 0 #271c19;
             cursor: pointer;
+            transition: transform 0.1s;
         }
-        .crop-plot img {
-            width: 40px;
-            height: 40px;
-            filter: drop-shadow(0 3px 2px rgba(0,0,0,0.5));
-            transition: transform 0.2s;
+        .tile:active {
+            transform: translateY(2px);
+            box-shadow: inset 0 3px 0 rgba(0,0,0,0.4), 0 2px 0 #271c19;
         }
-        .crop-plot img:active { transform: scale(1.2); }
 
-        /* BARRA INFERIOR DE ACCIONES */
+        .tile svg {
+            width: 38px;
+            height: 38px;
+            filter: drop-shadow(0 3px 2px rgba(0,0,0,0.4));
+        }
+
+        /* BARRA INFERIOR */
         .bottom-nav {
             width: 100%;
             max-width: 420px;
@@ -150,7 +162,7 @@
             color: white;
             font-size: 13px;
             font-weight: bold;
-            padding: 10px 16px;
+            padding: 10px 18px;
             text-shadow: 1px 1px 2px #000;
             cursor: pointer;
             box-shadow: 0 4px 0 #b78103;
@@ -215,51 +227,121 @@
         </div>
     </div>
 
-    <!-- VISTA PRINCIPAL DEL JUEGO CON ILUSTRACIONES -->
+    <!-- VISTA PRINCIPAL (ISLA GRANJA) -->
     <div id="game-view">
-        <div class="island-map">
+        <div class="island-container">
             
-            <!-- SECTOR 1: CULTIVOS -->
+            <!-- SECTOR 1: SIEMBRA -->
             <div class="farm-zone">
-                <span class="zone-title">Siembra</span>
-                <div class="crop-plot" onclick="harvest(1)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1147/1147530.png" alt="Zanahoria">
+                <div class="zone-label">🌾 Siembra</div>
+                <!-- Zanahoria SVG -->
+                <div class="tile" onclick="harvest('Zanahoria')">
+                    <svg viewBox="0 0 64 64">
+                        <path d="M38 10 C38 4, 46 2, 50 2 C50 8, 44 14, 38 10 Z" fill="#4caf50"/>
+                        <path d="M26 12 C26 6, 34 4, 38 4 C38 10, 32 16, 26 12 Z" fill="#388e3c"/>
+                        <path d="M12 52 C8 42, 16 20, 38 14 C44 26, 22 48, 12 52 Z" fill="#ff9800"/>
+                        <path d="M14 48 C16 38, 24 24, 36 16" stroke="#fb8c00" stroke-width="2" fill="none"/>
+                    </svg>
                 </div>
-                <div class="crop-plot" onclick="harvest(2)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1147/1147530.png" alt="Zanahoria">
+                <!-- Maíz SVG -->
+                <div class="tile" onclick="harvest('Maíz')">
+                    <svg viewBox="0 0 64 64">
+                        <path d="M18 48 C10 30, 20 12, 38 8 C46 24, 36 44, 18 48 Z" fill="#ffeb3b"/>
+                        <circle cx="28" cy="22" r="2" fill="#fbc02d"/>
+                        <circle cx="34" cy="26" r="2" fill="#fbc02d"/>
+                        <circle cx="24" cy="30" r="2" fill="#fbc02d"/>
+                        <path d="M10 54 C12 40, 22 36, 26 44 C18 52, 12 56, 10 54 Z" fill="#4caf50"/>
+                    </svg>
                 </div>
-                <div class="crop-plot" onclick="harvest(3)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/862/862856.png" alt="Maiz">
+                <!-- Tomate SVG -->
+                <div class="tile" onclick="harvest('Tomate')">
+                    <svg viewBox="0 0 64 64">
+                        <circle cx="32" cy="36" r="20" fill="#f44336"/>
+                        <circle cx="26" cy="28" r="4" fill="#ef5350"/>
+                        <path d="M28 16 L36 16 L34 22 L30 22 Z" fill="#388e3c"/>
+                        <path d="M24 18 C28 20, 36 20, 40 18 C38 22, 26 22, 24 18 Z" fill="#4caf50"/>
+                    </svg>
                 </div>
-                <div class="crop-plot" onclick="harvest(4)">
-                    <img src="https://cdn-icons-png.flaticon.com/512/862/862856.png" alt="Maiz">
+                <!-- Trigo SVG -->
+                <div class="tile" onclick="harvest('Trigo')">
+                    <svg viewBox="0 0 64 64">
+                        <path d="M32 56 L32 12" stroke="#fbc02d" stroke-width="4"/>
+                        <path d="M24 24 C28 20, 32 24, 32 24 C32 24, 36 20, 40 24" stroke="#ffa000" stroke-width="3" fill="none"/>
+                        <path d="M22 34 C28 30, 32 34, 32 34 C32 34, 36 30, 42 34" stroke="#ffa000" stroke-width="3" fill="none"/>
+                    </svg>
                 </div>
             </div>
 
             <!-- SECTOR 2: GALLINERO -->
             <div class="farm-zone">
-                <span class="zone-title">Gallinero</span>
-                <div class="crop-plot">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1864/1864514.png" alt="Gallina">
+                <div class="zone-label">🐔 Gallinero</div>
+                <!-- Gallina SVG REAL (No gato) -->
+                <div class="tile" onclick="harvest('Huevo')">
+                    <svg viewBox="0 0 64 64">
+                        <!-- Cuerpo -->
+                        <path d="M16 36 C16 22, 32 18, 44 26 C52 32, 50 48, 36 50 C22 52, 16 46, 16 36 Z" fill="#ffffff"/>
+                        <!-- Ala -->
+                        <path d="M26 36 C26 30, 36 30, 38 38 C34 42, 28 42, 26 36 Z" fill="#e0e0e0"/>
+                        <!-- Cresta -->
+                        <path d="M40 16 C42 12, 46 12, 46 18 C48 14, 52 16, 48 22 Z" fill="#f44336"/>
+                        <!-- Pico -->
+                        <path d="M48 24 L56 26 L48 30 Z" fill="#ffb74d"/>
+                        <!-- Ojo -->
+                        <circle cx="42" cy="24" r="2" fill="#000000"/>
+                        <!-- Patas -->
+                        <path d="M28 50 L26 58 M36 50 L38 58" stroke="#ffb74d" stroke-width="3"/>
+                    </svg>
                 </div>
-                <div class="crop-plot">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1864/1864514.png" alt="Gallina">
+                <div class="tile" onclick="harvest('Huevo')">
+                    <svg viewBox="0 0 64 64">
+                        <path d="M16 36 C16 22, 32 18, 44 26 C52 32, 50 48, 36 50 C22 52, 16 46, 16 36 Z" fill="#ffffff"/>
+                        <path d="M26 36 C26 30, 36 30, 38 38 C34 42, 28 42, 26 36 Z" fill="#e0e0e0"/>
+                        <path d="M40 16 C42 12, 46 12, 46 18 C48 14, 52 16, 48 22 Z" fill="#f44336"/>
+                        <path d="M48 24 L56 26 L48 30 Z" fill="#ffb74d"/>
+                        <circle cx="42" cy="24" r="2" fill="#000000"/>
+                        <path d="M28 50 L26 58 M36 50 L38 58" stroke="#ffb74d" stroke-width="3"/>
+                    </svg>
                 </div>
             </div>
 
             <!-- SECTOR 3: ESTABLO -->
             <div class="farm-zone">
-                <span class="zone-title">Establo</span>
-                <div class="crop-plot" style="width:115px;">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1998/1998610.png" alt="Vaca" style="width:50px; height:50px;">
+                <div class="zone-label">🐮 Establo</div>
+                <!-- Vaca SVG -->
+                <div class="tile" style="width:100%; height:80px;" onclick="harvest('Leche')">
+                    <svg viewBox="0 0 64 64">
+                        <!-- Cuerpo vaca -->
+                        <rect x="12" y="20" width="36" height="26" rx="8" fill="#ffffff"/>
+                        <!-- Manchas negras -->
+                        <circle cx="22" cy="28" r="6" fill="#212121"/>
+                        <circle cx="38" cy="36" r="5" fill="#212121"/>
+                        <!-- Cabeza -->
+                        <rect x="40" y="14" width="16" height="18" rx="4" fill="#ffffff"/>
+                        <rect x="44" y="22" width="12" height="10" rx="3" fill="#ff8a80"/>
+                        <!-- Cuernos -->
+                        <path d="M42 14 L38 8 M54 14 L58 8" stroke="#ffb74d" stroke-width="3"/>
+                        <!-- Patas -->
+                        <path d="M18 46 L18 56 M28 46 L28 56 M36 46 L36 56 M44 46 L44 56" stroke="#212121" stroke-width="3"/>
+                    </svg>
                 </div>
             </div>
 
-            <!-- SECTOR 4: CASA / INFRAESTRUCTURA -->
+            <!-- SECTOR 4: GRANERO -->
             <div class="farm-zone">
-                <span class="zone-title">Granero</span>
-                <div class="crop-plot" style="width:115px; background:transparent; border:none; box-shadow:none;">
-                    <img src="https://cdn-icons-png.flaticon.com/512/619/619032.png" alt="Granero" style="width:65px; height:65px;">
+                <div class="zone-label">🏡 Granero</div>
+                <!-- Granero / Casa SVG -->
+                <div class="tile" style="width:100%; height:80px; background:transparent; border:none; box-shadow:none;">
+                    <svg viewBox="0 0 64 64">
+                        <!-- Techo -->
+                        <polygon points="32,8 6,28 58,28" fill="#d32f2f"/>
+                        <polygon points="32,8 12,28 52,28" fill="#e53935"/>
+                        <!-- Estructura -->
+                        <rect x="12" y="28" width="40" height="28" fill="#d7ccc8"/>
+                        <!-- Puerta -->
+                        <path d="M24 56 L24 38 C24 34, 40 34, 40 38 L40 56 Z" fill="#5d4037"/>
+                        <!-- Cruz de madera puerta -->
+                        <path d="M24 38 L40 56 M40 38 L24 56" stroke="#8d6e63" stroke-width="2"/>
+                    </svg>
                 </div>
             </div>
 
@@ -277,9 +359,9 @@
     <div id="welcome-modal" class="modal-overlay">
         <div class="modal-card">
             <h2>🌾 Mi Granja NFT 🎓</h2>
-            <p>Un juego sostenible con impacto social real.</p>
+            <p>¡Bienvenido a tu isla de cultivo!</p>
             <p><strong>El 20% de cada compra</strong> apoya directamente a jóvenes con becas de estudio.</p>
-            <button class="btn-pop" onclick="closeWelcome()">¡Comenzar! 🚀</button>
+            <button class="btn-pop" onclick="closeWelcome()">¡Empezar! 🚀</button>
         </div>
     </div>
 
@@ -309,15 +391,8 @@
                     </div>
                     <button class="btn-buy-sm" onclick="buyFarm('rara', 20)">20 USDT</button>
                 </div>
-                <div class="farm-item">
-                    <div>
-                        <h4>Muy Rara</h4>
-                        <p>40 Parcelas | 20 Gallinas | 5 Vacas</p>
-                    </div>
-                    <button class="btn-buy-sm" onclick="buyFarm('muy_rara', 100)">100 USDT</button>
-                </div>
             </div>
-            <button class="btn-pop" style="background:#757575;" onclick="closeShop()">Volver</button>
+            <button class="btn-pop" style="background:#757575; box-shadow:none;" onclick="closeShop()">Volver</button>
         </div>
     </div>
 
@@ -329,9 +404,9 @@
         function openShop() { document.getElementById('shop-modal').style.display = 'flex'; }
         function closeShop() { document.getElementById('shop-modal').style.display = 'none'; }
 
-        function harvest(slot) {
-            if(tg) tg.HapticFeedback.impactOccurred('medium');
-            alert(`🌾 ¡Cosechaste la parcela #${slot}!`);
+        function harvest(item) {
+            if(tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+            alert(`✨ ¡Has cosechado: ${item}!`);
         }
 
         function buyFarm(type, price) {
@@ -343,8 +418,8 @@
             }
         }
 
-        function openWheel() { alert("🎡 Ruleta disponible pronto."); }
-        function openPvp() { alert("⚔️ Modo PvP en desarrollo."); }
+        function openWheel() { alert("🎡 Ruleta disponible muy pronto."); }
+        function openPvp() { alert("⚔️ Mercado PvP en desarrollo."); }
     </script>
 </body>
 </html>
